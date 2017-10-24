@@ -27,3 +27,4 @@
 (def post (wrapped-method client/post))
 (def delete (wrapped-method client/delete))
 (def put (wrapped-method client/put))
+(def opts {:as :json})

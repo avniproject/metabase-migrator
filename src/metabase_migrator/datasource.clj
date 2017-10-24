@@ -5,7 +5,7 @@
 
 (defn- ds-exists?
   [ds-name]
-  (->> (client/get (uri "database") {:as :json})
+  (->> (client/get (uri "database") client/opts)
        :body
        (some (fn [{name :name}] (= name ds-name)))
        some?))
@@ -13,7 +13,7 @@
 (defn- source-ds
   [ds-name]
   (-> ds-name
-      (client/get (uri "database") {:as :json})
+      (client/get (uri "database") client/opts)
       :body))
 
 (defn- create-ds
@@ -22,6 +22,5 @@
 
 (defn- load-all-ds
   []
-  (-> (client/get (uri "database") {:as :json})
-      :body
-      ))
+  (-> (client/get (uri "database") client/opts)
+      :body))
