@@ -3,8 +3,8 @@
             [clojure.string :refer [join]]))
 
 (def ^:private state (atom {:uri         (env :metabase-uri "http://locahost:3000")
-                            :username    (env :metabase-username "")
-                            :password    (env :metabase-password "")
+                            :username    (env :metabase-username "admin@openchs.org")
+                            :password    (env :metabase-password "passw0rd")
                             :token       nil
                             :datasources []}))
 
