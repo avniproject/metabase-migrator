@@ -15,16 +15,20 @@
 
 (def credentials (select-keys @state [:username :password]))
 
-(defn uri [& args]
+(defn uri
+  [& args]
   (join "/" (concat [(:uri @state) "api"] args)))
 
-(defn set-token [token]
+(defn set-token
+  [token]
   (set-state :token token))
 
-(defn get-token []
+(defn get-token
+  []
   (:token @state))
 
-(defn token-exists? []
+(defn token-exists?
+  []
   (-> @state
       :token
       nil?

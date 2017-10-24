@@ -18,7 +18,8 @@
       set-token
       is-logged-in?))
 
-(defn logout []
+(defn logout
+  []
   (do (mclient/delete (uri "session")
-                     {:form-params {:session_id (get-token)}})
+                      {:form-params {:session_id (get-token)}})
       (set-token nil)))

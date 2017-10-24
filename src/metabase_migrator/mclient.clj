@@ -16,8 +16,10 @@
     ([req respond raise]
      (client (auth-request req) respond raise))))
 
-(defn- wrapped-method [method]
-  (fn [& args]
+(defn- wrapped-method
+  [method]
+  (fn
+    [& args]
     (client/with-additional-middleware [wrap-auth]
                                        (apply method args))))
 
