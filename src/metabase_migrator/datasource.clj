@@ -11,12 +11,25 @@
        (some (fn [{name :name}] (= name ds-name)))
        some?))
 
+
+(defn table-info
+  [{:keys [id]}]
+  (-> (client/get (uri "table" (str id) "query_metadata") (client/make-opts))
+      :body))
+
+(defn- ds-info
+  [ds]
+  (->> ds
+       :tables
+       (pmap table-info)
+       (assoc ds :tables)))
+
 (defn- load-all-ds
   []
   (->> (client/make-opts {:query-params {"include_tables" true}})
        (client/get (uri "database"))
        :body
-       (pmap #(:body (client/get (uri "database" (str (:id %)) "metadata") (client/make-opts))))
+       (map ds-info)
        add-dss))
 
 (defn- source-ds
