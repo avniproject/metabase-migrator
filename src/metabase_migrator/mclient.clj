@@ -27,4 +27,10 @@
 (def post (wrapped-method client/post))
 (def delete (wrapped-method client/delete))
 (def put (wrapped-method client/put))
-(def opts {:as :json})
+(def as->json {:as :json})
+
+(def default-opts (merge as->json))
+
+(defn make-opts
+  [& opts]
+  (apply merge default-opts opts))

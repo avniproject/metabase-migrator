@@ -1,26 +1,32 @@
 (ns metabase-migrator.datasource
   (:require [metabase-migrator.mclient :as client]
+            [metabase-migrator.utils :refer [find-in-coll]]
             [metabase-migrator.migrator :refer :all]))
 
 
 (defn- ds-exists?
   [ds-name]
-  (->> (client/get (uri "database") client/opts)
+  (->> (client/get (uri "database") (client/make-opts))
        :body
        (some (fn [{name :name}] (= name ds-name)))
        some?))
 
-(defn- source-ds
-  [ds-name]
-  (-> ds-name
-      (client/get (uri "database") client/opts)
-      :body))
-
-(defn- create-ds
-  [name {host :host port :port user :user password :password :as details}]
-  )
-
 (defn- load-all-ds
   []
-  (-> (client/get (uri "database") client/opts)
-      :body))
+  (->> (client/make-opts {:query-params {"include_tables" true}})
+       (client/get (uri "database"))
+       :body
+       (pmap #(:body (client/get (uri "database" (str (:id %)) "metadata") (client/make-opts))))
+       add-dss))
+
+(defn- source-ds
+  []
+  (-> (get-dss)
+      (find-in-coll :name (get-main))
+      (set-source)))
+
+(defn init
+  []
+  (do
+    (load-all-ds)
+    (source-ds)))

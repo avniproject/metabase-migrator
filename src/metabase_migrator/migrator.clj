@@ -2,11 +2,13 @@
   (:require [environ.core :refer [env]]
             [clojure.string :refer [join]]))
 
-(def ^:private state (atom {:uri         (env :metabase-uri "http://locahost:3000")
-                            :username    (env :metabase-username "admin@openchs.org")
-                            :password    (env :metabase-password "passw0rd")
-                            :token       nil
-                            :datasources []}))
+(def ^:private state (atom {:uri             (env :metabase-uri "http://locahost:3000")
+                            :username        (env :metabase-username "admin@openchs.org")
+                            :password        (env :metabase-password "passw0rd")
+                            :token           nil
+                            :main            (env :metabase-main-datasource "OpenCHS Main")
+                            :datasources     []
+                            :main-datasource nil}))
 
 
 (defn- set-state [key val]
@@ -34,12 +36,20 @@
       nil?
       not))
 
-(defn add-datasource
-  [ds]
-  (->> (:datasources @state)
-       (cons ds)
-       (set-state :datasources)))
-
-(defn add-datasources
+(defn add-dss
   [dss]
-  (map dss))
+  (set-state :datasources dss)
+  dss)
+
+(defn get-dss
+  []
+  (:datasources @state))
+
+(defn get-main
+  []
+  (:main @state))
+
+(defn set-source
+  [ds]
+  (set-state :main-datasource ds)
+  ds)
