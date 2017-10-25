@@ -21,8 +21,8 @@
 
 (defn- source-ds
   []
-  (-> (get-dss)
-      (find-in-coll :name (get-main))
+  (-> (dss)
+      (find-in-coll :name (main-ds))
       (set-source)))
 
 (defn init

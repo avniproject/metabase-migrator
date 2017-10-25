@@ -1,7 +1,7 @@
 (ns metabase-migrator.auth
   (:require [clj-http.client :as client]
             [metabase-migrator.mclient :as mclient]
-            [metabase-migrator.migrator :refer [uri credentials set-token token-exists? get-token]]))
+            [metabase-migrator.migrator :refer [uri credentials set-token token-exists? token]]))
 
 (defn is-logged-in?
   [& _]
@@ -21,5 +21,5 @@
 (defn logout
   []
   (do (mclient/delete (uri "session")
-                      {:form-params {:session_id (get-token)}})
+                      {:form-params {:session_id (token)}})
       (set-token nil)))

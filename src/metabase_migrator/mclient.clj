@@ -1,11 +1,11 @@
 (ns metabase-migrator.mclient
   (:require [clj-http.client :as client]
-            [metabase-migrator.migrator :refer [get-token]]))
+            [metabase-migrator.migrator :refer [token]]))
 
 (defn- auth-request
   [req]
   (-> req
-      (assoc-in [:headers "X-METABASE-SESSION"] (get-token))))
+      (assoc-in [:headers "X-METABASE-SESSION"] (token))))
 
 (defn- wrap-auth
   "Middleware converting the :token option into an Metabase Authorization header."

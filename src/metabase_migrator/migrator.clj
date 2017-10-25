@@ -25,7 +25,7 @@
   [token]
   (set-state :token token))
 
-(defn get-token
+(defn token
   []
   (:token @state))
 
@@ -41,11 +41,11 @@
   (set-state :datasources dss)
   dss)
 
-(defn get-dss
+(defn dss
   []
   (:datasources @state))
 
-(defn get-main
+(defn main-ds
   []
   (:main @state))
 

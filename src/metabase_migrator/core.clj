@@ -2,7 +2,14 @@
   (:gen-class))
 
 
+(defn- init-state
+  "Setup required startup state"
+  []
+  (do
+    (metabase-migrator.auth/login)
+    (metabase-migrator.datasource/init)))
+
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Main"
   [& args]
-  (println "Hello, World!"))
+  (init-state))
