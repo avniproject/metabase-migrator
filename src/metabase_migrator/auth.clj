@@ -9,14 +9,15 @@
 
 (defn login
   []
-  (-> (client/post (uri "session")
-                   {:form-params  credentials
-                    :content-type :json
-                    :as           :json})
-      :body
-      :id
-      set-token
-      is-logged-in?))
+  (when (not (is-logged-in?))
+    (-> (client/post (uri "session")
+                     {:form-params  credentials
+                      :content-type :json
+                      :as           :json})
+        :body
+        :id
+        set-token))
+  (is-logged-in?))
 
 (defn logout
   []
