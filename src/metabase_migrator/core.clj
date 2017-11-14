@@ -1,4 +1,6 @@
 (ns metabase-migrator.core
+  (:require [metabase-migrator.auth :as auth]
+            [metabase-migrator.datasource :as datasource])
   (:gen-class))
 
 
@@ -6,8 +8,8 @@
   "Setup required startup state"
   []
   (do
-    (metabase-migrator.auth/login)
-    (metabase-migrator.datasource/init)))
+    (auth/login)
+    (datasource/init)))
 
 (defn -main
   "Main"

@@ -1,6 +1,7 @@
 (ns metabase-migrator.datasource
   (:require [metabase-migrator.mclient :as client]
             [metabase-migrator.utils :refer [find-in-coll]]
+            [metabase-migrator.table :refer [migrate-table]]
             [metabase-migrator.migrator :refer :all]))
 
 
@@ -43,3 +44,10 @@
   (do
     (load-all-ds)
     (source-ds)))
+
+(defn migrate-datasource
+  [source dest]
+  (let [source-tables (:tables source)
+        dest-tables (:tables dest)
+        migrate-table-fn (migrate-table source-tables dest-tables)]
+    (assoc dest :tables (pmap migrate-table-fn source-tables dest-tables))))
